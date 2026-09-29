@@ -18,17 +18,29 @@ Backend:
 
 ```powershell
 cd C:\Users\HAYDEE\ReactN\HYLDA\hylda\backend
-npm install
-npm run dev
+node src/server.js
 ```
 
 Frontend:
 
 ```powershell
 cd C:\Users\HAYDEE\ReactN\HYLDA\hylda\frontend-web
-npm install
 npm start
 ```
+
+Para expor publicamente via ngrok (backend na porta 3000):
+
+```powershell
+cd C:\Users\HAYDEE\ReactN\HYLDA\
+ngrok http 3000 --url https://unify-creamer-draw.ngrok-free.dev
+```
+
+> Importante: ao usar o ngrok, o backend serve o frontend a partir da pasta `build/`. Antes de iniciar o backend, gere o build atualizado:
+>
+> ```powershell
+> cd C:\Users\HAYDEE\ReactN\HYLDA\hylda\frontend-web
+> npm run build
+> ```
 
 ## Variáveis de ambiente
 
