@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+build/
+dist/
+out/
+
+# Ambiente
+.env
+.env.local
+
+# Logs
+logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

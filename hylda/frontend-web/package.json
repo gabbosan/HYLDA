@@ -1,0 +1,38 @@
+{
+  "name": "hylda-frontend-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FRONTEND HYLDA",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "react-scripts start --host 0.0.0.0 --port 3001",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "engine.io-client": "^6.6.6",
+    "react-scripts": "^5.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.8.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "png-to-ico": "^3.0.2"
+  },
+  "allowScripts": {
+    "core-js@3.50.0": true
+  }
+}
