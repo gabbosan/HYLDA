@@ -22,10 +22,12 @@ function AppComprador() {
   }, []);
 
   const { toasts, notificar } = useNotification();
+  const [copiedToast, setCopiedToast] = useState(null);
 
   const [selecoes, setSelecoes] = useState({});
   const [etapa, setEtapa] = useState('catalogo');
   const [resumo, setResumo] = useState(null);
+  const [activeOrderId, setActiveOrderId] = useState(null);
   const [mensagens, setMensagens] = useState([]);
   const [mensagemTexto, setMensagemTexto] = useState('');
   const messagesRef = useRef(null);
@@ -90,30 +92,81 @@ function AppComprador() {
 
   const handleConfirmar = () => {
     if (!resumo || !resumo.itens || resumo.itens.length === 0) return;
-    socket.emit('novo_pedido', resumo);
+    const orderId = `PED-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const pedido = { ...resumo, id: orderId, ts: Date.now() };
+    setActiveOrderId(orderId);
+    socket.emit('novo_pedido', pedido);
     setEtapa('aguardando');
   };
 
   const handleEnviarMensagem = () => {
     const texto = (mensagemTexto || '').trim();
-    if (!texto) return;
-    socket.emit('mensagem_comprador', texto);
+    if (!texto || !activeOrderId) return;
+    socket.emit('mensagem_comprador', { texto, requerResposta: false, tipo: 'chat', pedidoId: activeOrderId });
     setMensagens((prev) => [...prev, { from: 'comprador', text: texto, ts: Date.now(), kind: 'chat' }]);
     setMensagemTexto('');
   };
 
   useEffect(() => {
     socket.on('mensagem_fornecedor', (msg) => {
-      const texto = typeof msg === 'string' ? msg : msg.texto;
+      const pedidoId = msg && msg.pedidoId;
+      if (pedidoId && pedidoId !== activeOrderId) return;
+      const texto = typeof msg === 'string' ? msg : (msg.texto || msg.text);
       const kind = typeof msg === 'string' ? 'chat' : (msg.tipo || 'chat');
       setMensagens((prev) => [...prev, { from: 'fornecedor', text: texto, ts: Date.now(), kind }]);
       notificar();
     });
     return () => { socket.off('mensagem_fornecedor'); };
-  }, [notificar]);
+  }, [notificar, activeOrderId]);
 
-  const mensagensProntas = mensagens.filter(m => m.kind === 'pronta');
-  const mensagensChat = mensagens.filter(m => m.kind === 'chat');
+  const KEY_EMOJI = '🗝️';
+  const showCopied = () => {
+    const id = Date.now();
+    setCopiedToast(id);
+    setTimeout(() => setCopiedToast((prev) => prev === id ? null : prev), 1800);
+  };
+  const copyKeyText = async (text) => {
+    const clean = (text || '').replace(new RegExp(`^${KEY_EMOJI}\\s*`), '').trim();
+    try {
+      await navigator.clipboard.writeText(clean);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = clean;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    showCopied();
+  };
+
+  const renderMensagem = (msg, idx) => {
+    if (msg.kind === 'pronta' && (msg.text || '').startsWith(KEY_EMOJI)) {
+      return (
+        <div
+          key={idx}
+          className="banner-destaque banner-azul key-banner"
+          style={{ width: '100%', whiteSpace: 'pre-wrap' }}
+          onClick={() => copyKeyText(msg.text)}
+        >
+          {msg.text}
+        </div>
+      );
+    }
+    if (msg.kind === 'pronta') {
+      return (
+        <div key={idx} className="banner-destaque banner-azul" style={{ width: '100%', whiteSpace: 'pre-wrap' }}>
+          {msg.text}
+        </div>
+      );
+    }
+    return (
+      <div key={idx} className={`message chat-bolha chat-bolha-wrap ${msg.from === 'comprador' ? 'user' : 'fornecedor'}`}>
+        {msg.ts && <div className="msg-ts-top">{new Date(msg.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>}
+        <div className="msg-text-bold">{msg.text}</div>
+      </div>
+    );
+  };
 
   return (
     <div className="pedir-container">
@@ -183,27 +236,9 @@ function AppComprador() {
           <>
             <div className="banner-destaque banner-laranja">Pedido Enviado!</div>
 
-            {mensagensProntas.length > 0 && (
-              <div className="prontas-enviadas">
-                {mensagensProntas.map((msg, idx) => (
-                  <div key={idx} className="banner-destaque banner-azul" style={{width: '100%'}}>
-                    {msg.text}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {mensagensChat.length > 0 && (
+            {mensagens.length > 0 && (
               <div className="chat-section">
-                {mensagensChat.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`message chat-bolha chat-bolha-wrap ${msg.from === 'comprador' ? 'user' : 'fornecedor'}`}
-                  >
-                    {msg.ts && <div className="msg-ts-top">{new Date(msg.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>}
-                    <div className="msg-text-bold">{msg.text}</div>
-                  </div>
-                ))}
+                {mensagens.map((msg, idx) => renderMensagem(msg, idx))}
               </div>
             )}
           </>
@@ -254,6 +289,27 @@ function AppComprador() {
               Mensagem Recebida
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Toast de chave copiada */}
+      {copiedToast !== null && (
+        <div style={{
+          position: 'fixed',
+          top: 64,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 10000,
+          background: 'linear-gradient(135deg, #0e1038 0%, #1c2070 100%)',
+          color: '#fff',
+          padding: '10px 24px',
+          borderRadius: 8,
+          fontWeight: 'bold',
+          fontSize: 14,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+          animation: 'fadeInDown 0.3s ease'
+        }}>
+          Chave copiada!
         </div>
       )}
     </div>
