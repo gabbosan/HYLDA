@@ -9,7 +9,7 @@ body.pedir {
 }
 body.receber {
   font-family: sans-serif;
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #340b1a 0%, #891842 40%, #b41e55 100%);
 }
 .receber-container,
 .pedir-container {
@@ -35,7 +35,7 @@ body.receber {
   color: #b5a96c;
 }
 .receber-header {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
 }
 .pedir-header {
   background: linear-gradient(135deg, #340b1a 0%, #891842 40%, #b41e55 100%);
@@ -67,7 +67,7 @@ body.receber {
   margin-bottom: 14px;
   padding: 12px 10px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.8;
   
 }
@@ -106,7 +106,7 @@ body.receber {
   margin-left: auto !important;
   align-items: flex-end !important;
   text-align: right !important;
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
   color: #fff;
   font-weight: bold;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
@@ -124,7 +124,7 @@ body.receber {
 
 /* Cores de fundo (apenas visual, sem mexer em largura) */
 .pedir-messages .message.fornecedor.chat-bolha-wrap {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
   color: #fff;
   font-weight: bold;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
@@ -153,7 +153,7 @@ body.receber {
   background: linear-gradient(135deg, #340b1a 0%, #891842 40%, #b41e55 100%);
 }
 .banner-azul {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
 }
 .caixa-pedido-dados {
   background: #fff;
@@ -227,7 +227,7 @@ body.receber {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
 }
 .send-arrow-btn.azul {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
 }
 .send-arrow-btn:disabled {
@@ -321,7 +321,7 @@ body.receber {
   border: 2px solid #003366;
 }
 .receber-container.receber .radio-label input[type="radio"]:checked + .radio-custom {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
   border-color: #00cfff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
 }
@@ -339,7 +339,7 @@ body.receber {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
 }
 .enviar-btn:hover {
-  background: linear-gradient(135deg, #340b1a 0%, #891842 40%, #b41e55 100%);
+  background: linear-gradient(135deg, #b41e55 0%, #340b1a 100%);
   color: #fff;
 }
 .enviar-btn:disabled {
@@ -350,7 +350,7 @@ body.receber {
   opacity: 1;
 }
 .receber-btn {
-  background: linear-gradient(135deg, #003366 0%, #00cfff 100%);
+  background: linear-gradient(135deg, #0e1038 0%, #111446 50%, #1c2070 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -363,7 +363,7 @@ body.receber {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
 }
 .receber-btn:hover {
-  background: linear-gradient(135deg, #00cfff 0%, #003366 100%);
+  background: linear-gradient(135deg, #1c2070 0%, #0e1038 100%);
   color: #fff;
 }
 @media (max-width: 600px) {

@@ -142,7 +142,7 @@ function AppFornecedor() {
               marginTop: 10,
               border: 'none',
               borderRadius: 8,
-              background: '#2563eb',
+              background: '#2d34ac',
               color: '#fff',
               padding: '10px 14px',
               fontSize: 16,
@@ -159,8 +159,8 @@ function AppFornecedor() {
   return (
     <div className="receber-container">
       <div className="receber-header">
-        <h1>HYLDA - FRIDA</h1>
-        <span>Pedidos</span>
+        <h1>FRIDA</h1>
+        <span>CALDEIRÃO</span>
       </div>
       <div className="receber-messages painel-branco">
 
@@ -258,7 +258,7 @@ function AppFornecedor() {
         }}>
           {toasts.map(t => (
             <div key={t.id} style={{
-              background: 'linear-gradient(135deg, #003366 0%, #00cfff 100%)',
+              background: 'linear-gradient(135deg, #111446 0%, #00cfff 100%)',
               color: '#fff',
               padding: '10px 24px',
               borderRadius: 8,
