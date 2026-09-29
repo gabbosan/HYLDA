@@ -350,12 +350,12 @@ function AppFornecedor() {
 
         {pedidos.map((pedido, idx) => {
           const inp = getOrderInput(pedido.id);
-          const st = orderState[pedido.id] || { status: 'ativo', collapsed: false, standby: false };
+          const regra = validarRegras(pedido.itens || []);
+          const st = orderState[pedido.id] || { status: 'ativo', collapsed: !regra.valido, standby: false };
           const isCollapsed = st.collapsed || st.status === 'cancelado';
           const isCancelled = st.status === 'cancelado';
           const isStandby = !isCancelled && st.standby;
           const bannerClass = isCancelled ? 'banner-destaque banner-cinza' : (isStandby ? 'banner-destaque banner-standby' : 'banner-destaque banner-laranja');
-          const regra = validarRegras(pedido.itens || []);
           const mostrarBotoes = regra.valido;
           return (
             <div key={pedido.id || idx} className={`pedido-card ${isCancelled ? 'cancelado' : ''} ${isStandby ? 'standby' : ''}`}>
