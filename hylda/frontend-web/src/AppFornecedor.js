@@ -99,10 +99,11 @@ function AppFornecedor() {
   useEffect(() => {
     socket.on('novo_pedido', (pedido) => {
       const p = pedido && pedido.id ? pedido : { ...pedido, id: `PED-${Date.now()}-${Math.floor(Math.random() * 1000)}`, ts: Date.now() };
+      const regra = validarRegras(p.itens || []);
       setPedidos((prev) => [...prev, { ...p, mensagens: [] }]);
       setOrderState((prev) => ({
         ...prev,
-        [p.id]: { status: 'ativo', collapsed: false, lastActivity: Date.now(), standby: false }
+        [p.id]: { status: 'ativo', collapsed: !regra.valido, lastActivity: Date.now(), standby: false }
       }));
       notificar();
     });
